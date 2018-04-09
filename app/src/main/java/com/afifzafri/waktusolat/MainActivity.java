@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         // State select box
         Spinner selectState = (Spinner)findViewById(R.id.selectState);
         // Zone select box
-        Spinner selectZone = (Spinner)findViewById(R.id.selectZone);
+        final Spinner selectZone = (Spinner)findViewById(R.id.selectZone);
 
         // onload, populate States spinner
         // test array
@@ -45,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
                     String selectedVal = adapterView.getSelectedItem().toString();
                     Toast.makeText(getApplicationContext(), "Selected: "+selectedVal+ " & Index: "+selectedIndex, Toast.LENGTH_SHORT).show();
 
+                    // Populate select zone
+                    // test array
+                    String zonelist[] = {"Select zone...", "Zone 1", "Zone 2", "Zone 3"};
+
+                    ArrayAdapter<String> zoneAdapter = new ArrayAdapter<String>(getApplicationContext(),  android.R.layout.simple_spinner_item, zonelist);
+                    zoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+                    selectZone.setAdapter(zoneAdapter);
+
                     loading.setVisibility(View.GONE); // hide
                 }
 
@@ -56,13 +64,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        // onload, populate Zone spinner
-        // test array
-        String zonelist[] = {"Select zone..."};
-
-        ArrayAdapter<String> zoneAdapter = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, zonelist);
-        zoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
-        selectZone.setAdapter(zoneAdapter);
     }
 }
