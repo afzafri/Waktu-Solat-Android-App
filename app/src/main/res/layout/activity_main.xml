@@ -31,6 +31,7 @@
                 android:id="@+id/selectState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
                 tools:layout_editor_absoluteX="8dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -46,7 +47,8 @@
             <Spinner
                 android:id="@+id/selectZone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp" />
         </LinearLayout>
     </ScrollView>
 
