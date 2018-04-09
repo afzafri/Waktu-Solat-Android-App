@@ -57,6 +57,11 @@
                 android:layout_height="match_parent"
                 android:layout_margin="100dp"
                 android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/testRes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 
