@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         selectState.setAdapter(stateAdapter);
 
+        // Event listener for Select State
         selectState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -54,6 +55,25 @@ public class MainActivity extends AppCompatActivity {
                     selectZone.setAdapter(zoneAdapter);
 
                     loading.setVisibility(View.GONE); // hide
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        // Event listener for Select Zone
+        selectZone.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                // Check if selected value is index 0, which is no value, do nothing
+                int selectedIndex = adapterView.getSelectedItemPosition();
+                if(selectedIndex != 0) {
+                    Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
                 }
 
             }
