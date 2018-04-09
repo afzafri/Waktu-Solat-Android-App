@@ -7,7 +7,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // API URL
+        final String url = "http://192.168.43.90/waktusolat/api.php";
 
         // Initialize UI elements
         // Progress Bar
@@ -24,7 +39,35 @@ public class MainActivity extends AppCompatActivity {
         // Zone select box
         final Spinner selectZone = (Spinner)findViewById(R.id.selectZone);
 
+        final TextView testRes = (TextView)findViewById(R.id.testRes);
+
         // onload, populate States spinner
+        // Request States list json object response from the provided API URL.
+        RequestQueue queueState = Volley.newRequestQueue(getApplicationContext()); // Instantiate the RequestQueue.
+        loading.setVisibility(View.VISIBLE);// show loading progress bar
+        JsonObjectRequest stateRequests = new JsonObjectRequest
+                (Request.Method.GET, url+"?getStates", null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(getApplicationContext(), "States list fetched.", Toast.LENGTH_SHORT).show();
+                testRes.setText("Response: " + response.toString());
+                loading.setVisibility(View.GONE);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO: Handle error
+                Toast.makeText(getApplicationContext(), "Error fetch states list.", Toast.LENGTH_SHORT).show();
+                loading.setVisibility(View.GONE);
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queueState.add(stateRequests);
+
+
         // test array
         String statelist[] = {"Select state...", "Perlis","Kedah","Pulau Pinang","Perak"};
 
