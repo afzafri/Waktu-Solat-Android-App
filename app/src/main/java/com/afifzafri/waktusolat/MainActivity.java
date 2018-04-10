@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         selectState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                testRes.setText(""); // clear the output area
                 // Check if selected value is index 0, which is no value, do nothing
                 if(i != 0) {
                     loading.setVisibility(View.VISIBLE);// show loading progress bar
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         selectZone.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                testRes.setText(""); // clear the output area
                 // Check if selected value is index 0, which is no value, do nothing
                 if(i != 0) {
                     StringWithTag zone = (StringWithTag) adapterView.getItemAtPosition(i); // access the custom class
