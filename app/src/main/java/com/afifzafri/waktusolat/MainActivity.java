@@ -174,9 +174,13 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(JSONObject response) {
 
-                                    testRes.setText(response.toString());
+                                    try {
+                                        testRes.setText(response.toString(2));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
 
-                                    Toast.makeText(getApplicationContext(), "Zones list fetched.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Waktu Solat fetched.", Toast.LENGTH_SHORT).show();
                                     loading.setVisibility(View.GONE);
                                 }
                             }, new Response.ErrorListener() {
@@ -184,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
                                     // TODO: Handle error
-                                    Toast.makeText(getApplicationContext(), "Error fetch zones list.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Error fetch Waktu Solat.", Toast.LENGTH_SHORT).show();
                                     loading.setVisibility(View.GONE);
                                 }
                             });
