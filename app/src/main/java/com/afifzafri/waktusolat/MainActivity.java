@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         // Progress Bar
         final ProgressBar loading = (ProgressBar)findViewById(R.id.loading);
         // State select box
-        Spinner selectState = (Spinner)findViewById(R.id.selectState);
+        final Spinner selectState = (Spinner)findViewById(R.id.selectState);
         // Zone select box
         final Spinner selectZone = (Spinner)findViewById(R.id.selectZone);
 
@@ -50,8 +50,26 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(JSONObject response) {
+
+                // Iterate through the JSONObject and store into array, for populating spinner
+                int nostates = response.length() + 1;
+                // State list array
+                String statelist[] = new String[nostates];
+                statelist[0] = "Select state..."; // set default first element in the spinner
+                for(int i=1;i<nostates;i++) {
+                    try {
+                        statelist[i] = response.getString(String.valueOf(i-1));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                // Populate the spinner with Array values
+                ArrayAdapter<String> stateAdapter = new ArrayAdapter<String>(getApplicationContext(),   android.R.layout.simple_spinner_item, statelist);
+                stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+                selectState.setAdapter(stateAdapter);
+
                 Toast.makeText(getApplicationContext(), "States list fetched.", Toast.LENGTH_SHORT).show();
-                testRes.setText("Response: " + response.toString());
                 loading.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
@@ -66,15 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Add the request to the RequestQueue.
         queueState.add(stateRequests);
-
-
-        // test array
-        String statelist[] = {"Select state...", "Perlis","Kedah","Pulau Pinang","Perak"};
-
-        // Populate the spinner with Array values
-        ArrayAdapter<String> stateAdapter = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, statelist);
-        stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
-        selectState.setAdapter(stateAdapter);
 
         // Event listener for Select State
         selectState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
