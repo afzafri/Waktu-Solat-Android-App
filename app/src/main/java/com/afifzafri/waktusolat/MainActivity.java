@@ -95,8 +95,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 // Check if selected value is index 0, which is no value, do nothing
-                int selectedIndex = adapterView.getSelectedItemPosition();
-                if(selectedIndex != 0) {
+                if(i != 0) {
                     loading.setVisibility(View.VISIBLE);// show loading progress bar
 
                     String selectedVal = adapterView.getSelectedItem().toString();
@@ -162,12 +161,11 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 // Check if selected value is index 0, which is no value, do nothing
-                int selectedIndex = adapterView.getSelectedItemPosition();
-                if(selectedIndex != 0) {
+                if(i != 0) {
                     loading.setVisibility(View.VISIBLE);// show loading progress bar
 
-                    StringWithTag zone = (StringWithTag) adapterView.getItemAtPosition(i);
-                    String zoneID = (String) zone.key;
+                    StringWithTag zone = (StringWithTag) adapterView.getItemAtPosition(i); // access the custom class
+                    String zoneID = (String) zone.key; // get the key
 
                     testRes.setText(zoneID);
 
