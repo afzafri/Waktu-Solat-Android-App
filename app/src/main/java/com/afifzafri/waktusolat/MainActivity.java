@@ -1,5 +1,6 @@
 package com.afifzafri.waktusolat;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +21,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -105,12 +109,26 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(JSONObject response) {
 
-                                    testRes.setText(response.toString());
+                                    //testRes.setText(response.toString());
+
+                                    // Zone ID Array
+                                    ArrayList<StringWithTag> zonelist = new ArrayList<StringWithTag>();
+
+                                    Iterator<String> iter = response.keys();
+                                    while (iter.hasNext()) {
+                                        String key = iter.next();
+                                        try {
+                                            Object value = response.get(key);
+                                            zonelist.add(new StringWithTag(key, value.toString()));
+                                        } catch (JSONException e) {
+                                            // Something went wrong!
+                                        }
+                                    }
 
                                     // Populate the spinner with Array values
-                                    /*ArrayAdapter<String> zoneAdapter = new ArrayAdapter<String>(getApplicationContext(),   android.R.layout.simple_spinner_item, statelist);
+                                    ArrayAdapter<StringWithTag> zoneAdapter = new ArrayAdapter<StringWithTag>(getApplicationContext(),   android.R.layout.simple_spinner_item, zonelist);
                                     zoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
-                                    selectZone.setAdapter(zoneAdapter);*/
+                                    selectZone.setAdapter(zoneAdapter);
 
                                     Toast.makeText(getApplicationContext(), "Zones list fetched.", Toast.LENGTH_SHORT).show();
                                     loading.setVisibility(View.GONE);
