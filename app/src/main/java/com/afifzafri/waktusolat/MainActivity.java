@@ -164,7 +164,14 @@ public class MainActivity extends AppCompatActivity {
                 // Check if selected value is index 0, which is no value, do nothing
                 int selectedIndex = adapterView.getSelectedItemPosition();
                 if(selectedIndex != 0) {
-                    Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+                    loading.setVisibility(View.VISIBLE);// show loading progress bar
+
+                    StringWithTag zone = (StringWithTag) adapterView.getItemAtPosition(i);
+                    String zoneID = (String) zone.key;
+
+                    testRes.setText(zoneID);
+
+                    loading.setVisibility(View.GONE);
                 }
 
             }
