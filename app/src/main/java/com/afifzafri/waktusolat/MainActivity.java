@@ -56,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
 
                 // Iterate through the JSONObject and store into array, for populating spinner
-                int nostates = response.length() + 1;
-                // State list array
+                // State list ArrayList
                 ArrayList<String> statelist = new ArrayList<String>();
                 statelist.add("Select state..."); // set default first element in the spinner
 
@@ -112,8 +111,6 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(JSONObject response) {
 
-                                    //testRes.setText(response.toString());
-
                                     // Zone ID Array
                                     ArrayList<StringWithTag> zonelist = new ArrayList<StringWithTag>();
                                     zonelist.add(new StringWithTag(null, "Select zone...")); // set default first element in the spinner
@@ -166,14 +163,34 @@ public class MainActivity extends AppCompatActivity {
 
                 // Check if selected value is index 0, which is no value, do nothing
                 if(i != 0) {
-                    loading.setVisibility(View.VISIBLE);// show loading progress bar
-
                     StringWithTag zone = (StringWithTag) adapterView.getItemAtPosition(i); // access the custom class
                     String zoneID = (String) zone.key; // get the key
 
-                    testRes.setText(zoneID);
+                    RequestQueue queueWaktuSolat = Volley.newRequestQueue(getApplicationContext()); // Instantiate the RequestQueue.
+                    loading.setVisibility(View.VISIBLE);// show loading progress bar
+                    JsonObjectRequest waktuSolatRequests = new JsonObjectRequest
+                            (Request.Method.GET, url+"?zon="+zoneID, null, new Response.Listener<JSONObject>() {
 
-                    loading.setVisibility(View.GONE);
+                                @Override
+                                public void onResponse(JSONObject response) {
+
+                                    testRes.setText(response.toString());
+
+                                    Toast.makeText(getApplicationContext(), "Zones list fetched.", Toast.LENGTH_SHORT).show();
+                                    loading.setVisibility(View.GONE);
+                                }
+                            }, new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // TODO: Handle error
+                                    Toast.makeText(getApplicationContext(), "Error fetch zones list.", Toast.LENGTH_SHORT).show();
+                                    loading.setVisibility(View.GONE);
+                                }
+                            });
+
+                    // Add the request to the RequestQueue.
+                    queueWaktuSolat.add(waktuSolatRequests);
                 }
 
             }
