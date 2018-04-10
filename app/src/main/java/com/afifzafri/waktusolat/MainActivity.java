@@ -58,13 +58,17 @@ public class MainActivity extends AppCompatActivity {
                 // Iterate through the JSONObject and store into array, for populating spinner
                 int nostates = response.length() + 1;
                 // State list array
-                String statelist[] = new String[nostates];
-                statelist[0] = "Select state..."; // set default first element in the spinner
-                for(int i=1;i<nostates;i++) {
+                ArrayList<String> statelist = new ArrayList<String>();
+                statelist.add("Select state..."); // set default first element in the spinner
+
+                Iterator<String> iter = response.keys();
+                while (iter.hasNext()) {
+                    String key = iter.next();
                     try {
-                        statelist[i] = response.getString(String.valueOf(i-1));
+                        Object value = response.get(key);
+                        statelist.add(value.toString());
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        // Something went wrong!
                     }
                 }
 
