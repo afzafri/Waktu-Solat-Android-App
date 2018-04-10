@@ -96,17 +96,37 @@ public class MainActivity extends AppCompatActivity {
                     loading.setVisibility(View.VISIBLE);// show loading progress bar
 
                     String selectedVal = adapterView.getSelectedItem().toString();
-                    Toast.makeText(getApplicationContext(), "Selected: "+selectedVal+ " & Index: "+selectedIndex, Toast.LENGTH_SHORT).show();
 
-                    // Populate select zone
-                    // test array
-                    String zonelist[] = {"Select zone...", "Zone 1", "Zone 2", "Zone 3"};
+                    RequestQueue queueZone = Volley.newRequestQueue(getApplicationContext()); // Instantiate the RequestQueue.
+                    loading.setVisibility(View.VISIBLE);// show loading progress bar
+                    JsonObjectRequest zoneRequests = new JsonObjectRequest
+                            (Request.Method.GET, url+"?stateName="+selectedVal, null, new Response.Listener<JSONObject>() {
 
-                    ArrayAdapter<String> zoneAdapter = new ArrayAdapter<String>(getApplicationContext(),  android.R.layout.simple_spinner_item, zonelist);
-                    zoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
-                    selectZone.setAdapter(zoneAdapter);
+                                @Override
+                                public void onResponse(JSONObject response) {
 
-                    loading.setVisibility(View.GONE); // hide
+                                    testRes.setText(response.toString());
+
+                                    // Populate the spinner with Array values
+                                    /*ArrayAdapter<String> zoneAdapter = new ArrayAdapter<String>(getApplicationContext(),   android.R.layout.simple_spinner_item, statelist);
+                                    zoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+                                    selectZone.setAdapter(zoneAdapter);*/
+
+                                    Toast.makeText(getApplicationContext(), "Zones list fetched.", Toast.LENGTH_SHORT).show();
+                                    loading.setVisibility(View.GONE);
+                                }
+                            }, new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // TODO: Handle error
+                                    Toast.makeText(getApplicationContext(), "Error fetch zones list.", Toast.LENGTH_SHORT).show();
+                                    loading.setVisibility(View.GONE);
+                                }
+                            });
+
+                    // Add the request to the RequestQueue.
+                    queueZone.add(zoneRequests);
                 }
 
             }
