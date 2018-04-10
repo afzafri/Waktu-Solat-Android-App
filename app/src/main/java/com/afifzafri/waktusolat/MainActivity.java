@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     // Zone ID Array
                                     ArrayList<StringWithTag> zonelist = new ArrayList<StringWithTag>();
+                                    zonelist.add(new StringWithTag(null, "Select zone...")); // set default first element in the spinner
 
                                     Iterator<String> iter = response.keys();
                                     while (iter.hasNext()) {
