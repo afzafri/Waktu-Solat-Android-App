@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -176,8 +177,35 @@ public class MainActivity extends AppCompatActivity {
                                 public void onResponse(JSONObject response) {
 
                                     try {
-                                        //testRes.setText(response.toString(2));
+                                        // Initialize TextView variables for the output
+                                        TextView outImsak = (TextView)findViewById(R.id.outImsak);
+                                        TextView outSubuh = (TextView)findViewById(R.id.outSubuh);
+                                        TextView outSyuruk = (TextView)findViewById(R.id.outSyuruk);
+                                        TextView outZohor = (TextView)findViewById(R.id.outZohor);
+                                        TextView outAsar = (TextView)findViewById(R.id.outAsar);
+                                        TextView outMaghrib = (TextView)findViewById(R.id.outMaghrib);
+                                        TextView outIsyak = (TextView)findViewById(R.id.outIsyak);
+                                        TextView outDateTime = (TextView)findViewById(R.id.outDateTime);
+
+                                        // Parse the json get store the data
                                         String imsak = response.getString("waktu_imsak");
+                                        String subuh = response.getString("waktu_subuh");
+                                        String syuruk = response.getString("waktu_syuruk");
+                                        String zohor = response.getString("waktu_zohor");
+                                        String asar = response.getString("waktu_asar");
+                                        String maghrib = response.getString("waktu_maghrib");
+                                        String isyak = response.getString("waktu_isyak");
+                                        String tarikhmasa = response.getString("tarikh_masa");
+
+                                        // Set the data to output
+                                        outImsak.setText(imsak);
+                                        outSubuh.setText(subuh);
+                                        outSyuruk.setText(syuruk);
+                                        outZohor.setText(zohor);
+                                        outAsar.setText(asar);
+                                        outMaghrib.setText(maghrib);
+                                        outIsyak.setText(isyak);
+                                        outDateTime.setText(tarikhmasa);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
