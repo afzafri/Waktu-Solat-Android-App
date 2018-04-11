@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
         // Output area
         final TableLayout outputArea = (TableLayout)findViewById(R.id.outputArea);
 
-        final TextView testRes = (TextView)findViewById(R.id.testRes);
-
         // onload, populate States spinner
         // Request States list json object response from the provided API URL.
         RequestQueue queueState = Volley.newRequestQueue(getApplicationContext()); // Instantiate the RequestQueue.
@@ -99,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         selectState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                testRes.setText("");
                 outputArea.setVisibility(View.GONE);// clear the output area
                 // Check if selected value is index 0, which is no value, do nothing
                 if(i != 0) {
@@ -165,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 outputArea.setVisibility(View.GONE);// clear the output area
-                testRes.setText("");
                 // Check if selected value is index 0, which is no value, do nothing
                 if(i != 0) {
                     StringWithTag zone = (StringWithTag) adapterView.getItemAtPosition(i); // access the custom class
@@ -180,7 +176,8 @@ public class MainActivity extends AppCompatActivity {
                                 public void onResponse(JSONObject response) {
 
                                     try {
-                                        testRes.setText(response.toString(2));
+                                        //testRes.setText(response.toString(2));
+                                        String imsak = response.getString("waktu_imsak");
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
