@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         final Spinner selectState = (Spinner)findViewById(R.id.selectState);
         // Zone select box
         final Spinner selectZone = (Spinner)findViewById(R.id.selectZone);
+        // Output area
+        final TableLayout outputArea = (TableLayout)findViewById(R.id.outputArea);
 
         final TextView testRes = (TextView)findViewById(R.id.testRes);
 
@@ -96,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
         selectState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                testRes.setText(""); // clear the output area
+                testRes.setText("");
+                outputArea.setVisibility(View.GONE);// clear the output area
                 // Check if selected value is index 0, which is no value, do nothing
                 if(i != 0) {
                     loading.setVisibility(View.VISIBLE);// show loading progress bar
@@ -160,7 +164,8 @@ public class MainActivity extends AppCompatActivity {
         selectZone.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                testRes.setText(""); // clear the output area
+                outputArea.setVisibility(View.GONE);// clear the output area
+                testRes.setText("");
                 // Check if selected value is index 0, which is no value, do nothing
                 if(i != 0) {
                     StringWithTag zone = (StringWithTag) adapterView.getItemAtPosition(i); // access the custom class
@@ -182,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     Toast.makeText(getApplicationContext(), "Waktu Solat fetched.", Toast.LENGTH_SHORT).show();
                                     loading.setVisibility(View.GONE);
+                                    outputArea.setVisibility(View.VISIBLE);
                                 }
                             }, new Response.ErrorListener() {
 
