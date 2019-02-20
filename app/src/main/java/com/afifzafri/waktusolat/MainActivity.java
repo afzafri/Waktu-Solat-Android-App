@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -34,12 +35,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // API URL
-        final String url = "http://192.168.43.90/waktusolat/api.php";
-
         // Initialize UI elements
         // Progress Bar
-        final ProgressBar loading = (ProgressBar)findViewById(R.id.loading);
+        final FrameLayout loadingFrame = (FrameLayout)findViewById(R.id.loadingFrame);
         // State select box
         final Spinner selectState = (Spinner)findViewById(R.id.selectState);
         // Zone select box
@@ -50,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
         // onload, populate States spinner
         // Request States list json object response from the provided API URL.
         RequestQueue queueState = Volley.newRequestQueue(getApplicationContext()); // Instantiate the RequestQueue.
-        loading.setVisibility(View.VISIBLE);// show loading progress bar
+        loadingFrame.setVisibility(View.VISIBLE);// show loading progress bar
         JsonObjectRequest stateRequests = new JsonObjectRequest
-                (Request.Method.GET, url+"?getStates", null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, AppHelper.API+"?getStates", null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -79,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 selectState.setAdapter(stateAdapter);
 
                 Toast.makeText(getApplicationContext(), "States list fetched.", Toast.LENGTH_SHORT).show();
-                loading.setVisibility(View.GONE);
+                loadingFrame.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
 
@@ -87,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 // TODO: Handle error
                 Toast.makeText(getApplicationContext(), "Error fetch states list.", Toast.LENGTH_SHORT).show();
-                loading.setVisibility(View.GONE);
+                loadingFrame.setVisibility(View.GONE);
             }
         });
 
@@ -101,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
                 outputArea.setVisibility(View.GONE);// clear the output area
                 // Check if selected value is index 0, which is no value, do nothing
                 if(i != 0) {
-                    loading.setVisibility(View.VISIBLE);// show loading progress bar
+                    loadingFrame.setVisibility(View.VISIBLE);// show loading progress bar
 
                     String selectedVal = adapterView.getSelectedItem().toString();
 
                     RequestQueue queueZone = Volley.newRequestQueue(getApplicationContext()); // Instantiate the RequestQueue.
-                    loading.setVisibility(View.VISIBLE);// show loading progress bar
+                    loadingFrame.setVisibility(View.VISIBLE);// show loading progress bar
                     JsonObjectRequest zoneRequests = new JsonObjectRequest
-                            (Request.Method.GET, url+"?stateName="+selectedVal, null, new Response.Listener<JSONObject>() {
+                            (Request.Method.GET, AppHelper.API+"?stateName="+selectedVal, null, new Response.Listener<JSONObject>() {
 
                                 @Override
                                 public void onResponse(JSONObject response) {
@@ -134,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                                     selectZone.setAdapter(zoneAdapter);
 
                                     Toast.makeText(getApplicationContext(), "Zones list fetched.", Toast.LENGTH_SHORT).show();
-                                    loading.setVisibility(View.GONE);
+                                    loadingFrame.setVisibility(View.GONE);
                                 }
                             }, new Response.ErrorListener() {
 
@@ -142,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onErrorResponse(VolleyError error) {
                                     // TODO: Handle error
                                     Toast.makeText(getApplicationContext(), "Error fetch zones list.", Toast.LENGTH_SHORT).show();
-                                    loading.setVisibility(View.GONE);
+                                    loadingFrame.setVisibility(View.GONE);
                                 }
                             });
 
@@ -169,9 +167,9 @@ public class MainActivity extends AppCompatActivity {
                     String zoneID = (String) zone.key; // get the key
 
                     RequestQueue queueWaktuSolat = Volley.newRequestQueue(getApplicationContext()); // Instantiate the RequestQueue.
-                    loading.setVisibility(View.VISIBLE);// show loading progress bar
+                    loadingFrame.setVisibility(View.VISIBLE);// show loading progress bar
                     JsonObjectRequest waktuSolatRequests = new JsonObjectRequest
-                            (Request.Method.GET, url+"?zon="+zoneID, null, new Response.Listener<JSONObject>() {
+                            (Request.Method.GET, AppHelper.API+"?zon="+zoneID, null, new Response.Listener<JSONObject>() {
 
                                 @Override
                                 public void onResponse(JSONObject response) {
@@ -211,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
 
                                     Toast.makeText(getApplicationContext(), "Waktu Solat fetched.", Toast.LENGTH_SHORT).show();
-                                    loading.setVisibility(View.GONE);
+                                    loadingFrame.setVisibility(View.GONE);
                                     outputArea.setVisibility(View.VISIBLE);
                                 }
                             }, new Response.ErrorListener() {
@@ -220,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onErrorResponse(VolleyError error) {
                                     // TODO: Handle error
                                     Toast.makeText(getApplicationContext(), "Error fetch Waktu Solat.", Toast.LENGTH_SHORT).show();
-                                    loading.setVisibility(View.GONE);
+                                    loadingFrame.setVisibility(View.GONE);
                                 }
                             });
 
